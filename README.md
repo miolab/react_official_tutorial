@@ -45,7 +45,9 @@ v14.10.1
   └── docker-compose.yml
   ```
 
-  - ルート直下に、Reactプロジェクトディレクトリ `my_app` を生成します（後述）
+  - [初期構成ブランチ](https://github.com/miolab/react_official_tutorial/tree/_FROZEN__init_react_with_docker)
+
+  - この状態から、ルート直下に、Reactプロジェクトディレクトリ `my_app` を生成します（後述）
 
 - Docker image をビルド
 
