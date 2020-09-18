@@ -33,7 +33,7 @@ v14.10.1
 
 ---
 
-## React 開発環境準備
+## :book: React 開発環境準備
 
 - ディレクトリ構成
 
@@ -69,7 +69,7 @@ v14.10.1
 
 ---
 
-## コンテナ起動
+## :book: コンテナ起動
 
 - `docker-compose up` でコンテナを立ち上げます
 
@@ -104,4 +104,10 @@ v14.10.1
 
 ---
 
-## [WIP]
+# :rocket: [チュートリアル準備 + 概要](https://ja.reactjs.org/tutorial/tutorial.html#setup-option-2-local-development-environment)
+
+- `my_app/src/` ディレクトリ内のファイルを全消去
+
+  ```bash
+  $ cd my_app/src && rm *
+  ```
