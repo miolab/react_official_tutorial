@@ -65,7 +65,9 @@ v14.10.1
 
   - ルート直下に `my_app` プロジェクトディレクトリが生成されました
 
-## [WIP] コンテナ起動
+---
+
+## コンテナ起動
 
 - `docker-compose up` でコンテナを立ち上げます
 
@@ -92,4 +94,12 @@ v14.10.1
 
   ```
 
-- [http://localhost:3000](http://localhost:3000) をブラウザ確認
+- [http://localhost:3000](http://localhost:3000) をブラウザで確認
+
+  <img width="708" alt="スクリーンショット 2020-09-17 20 37 10" src="https://user-images.githubusercontent.com/33124627/93542518-2df92480-f994-11ea-82a2-e5e2bb705813.png">
+
+  - ぶじ、Reactの最初の画面が確認できました
+
+---
+
+## [WIP]
