@@ -104,10 +104,33 @@ v14.10.1
 
 ---
 
-# :rocket: [チュートリアル準備 + 概要](https://ja.reactjs.org/tutorial/tutorial.html#setup-option-2-local-development-environment)
+# :rocket: [チュートリアル準備](https://ja.reactjs.org/tutorial/tutorial.html#setup-option-2-local-development-environment)
 
-- `my_app/src/` ディレクトリ内のファイルを全消去
+- `my_app/src/` に移動し、`src/` ディレクトリ内のファイルを全消去
 
   ```bash
   $ cd my_app/src && rm *
   ```
+
+- `src/` 内に、公式指定の `CSS` コードと `JS` コードの各内容をそれぞれコピーし、[index.css](https://codepen.io/gaearon/pen/oWWQNa?editors=0100) , [index.js](https://codepen.io/gaearon/pen/oWWQNa?editors=0010) として新規に作成
+
+- `index.js` のコード先頭に、以下を記述
+
+  ```js
+  import React from 'react';
+  import ReactDOM from 'react-dom';
+  import './index.css';
+
+    .
+    .
+  ```
+
+- Dockerコンテナを再起動
+
+- [http://localhost:3000](http://localhost:3000) をブラウザ更新して確認
+
+  <img width="164" alt="スクリーンショット 2020-09-18 21 51 18" src="https://user-images.githubusercontent.com/33124627/93599453-1acc7000-f9f9-11ea-88d6-6d8f9fb5a88b.png">
+
+# :rocket: [概要](https://ja.reactjs.org/tutorial/tutorial.html#overview)
+
+WIP
