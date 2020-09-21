@@ -133,4 +133,23 @@ v14.10.1
 
 # :rocket: [概要](https://ja.reactjs.org/tutorial/tutorial.html#overview)
 
-WIP
+### キーワード
+
+- コンポーネント
+- props
+- render
+- JSX
+
+### `index.js` が持つ、3つの React コンポーネントをあらためて俯瞰する
+
+- Square
+
+  `<button>` をレンダリング
+
+- Board
+
+  9個のマス目をレンダリング
+
+- Game
+
+  盤面および、プレースホルダー（後ほど着手）を描画
