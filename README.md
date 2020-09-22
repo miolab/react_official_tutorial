@@ -167,24 +167,26 @@ v14.10.1
 
 親コンポーネント（Board）から、子コンポーネント（Square）へ props を渡して、アプリ内での情報を流していきます
 
-```js
-class Square extends React.Component {
-  render() {
-    return (
-      <button className="square">
-        {/* TODO */}    // -> delete
-        {this.props.value}  // -> add
-      </button>
-    );
-  }
-}
+- `index.js`
 
-class Board extends React.Component {
-  renderSquare(i) {
-    // return <Square />;    // -> delete
-    return <Square value={i} />;  // -> add
+  ```js
+  class Square extends React.Component {
+    render() {
+      return (
+        <button className="square">
+          {/* TODO */}    // -> delete
+          {this.props.value}  // -> add
+        </button>
+      );
+    }
   }
-```
+
+  class Board extends React.Component {
+    renderSquare(i) {
+      // return <Square />;    // -> delete
+      return <Square value={i} />;  // -> add
+    }
+  ```
 
 - 変更後の描画結果
 
