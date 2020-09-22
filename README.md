@@ -133,4 +133,59 @@ v14.10.1
 
 # :rocket: [概要](https://ja.reactjs.org/tutorial/tutorial.html#overview)
 
-WIP
+### :book: [React とは？](https://ja.reactjs.org/tutorial/tutorial.html#what-is-react)
+
+> React はユーザインターフェイスを構築するための、宣言型で効率的で柔軟な JavaScript ライブラリです。  
+> 複雑な UI を、「コンポーネント」と呼ばれる小さく独立した部品から組み立てることができます。
+
+- キーワード
+
+  - コンポーネント
+  - props
+  - render
+  - JSX
+
+（TODO: あとで書く）
+
+### :book: [スターターコードの中身を確認する](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
+
+`index.js` が持つ、3つの React コンポーネントをあらためて俯瞰してみます
+
+- __Square__ （マス目）コンポーネント
+
+  1個の `<button>` をレンダリング
+
+- __Board__ （盤面）コンポーネント
+
+  9個のマス目をレンダリング
+
+- __Game__ コンポーネント
+
+  盤面および、プレースホルダー（後ほど実装）を描画
+
+### :book: [データを Props 経由で渡す](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
+
+親コンポーネント（Board）から、子コンポーネント（Square）へ props を渡して、アプリ内での情報を流していきます
+
+```js
+class Square extends React.Component {
+  render() {
+    return (
+      <button className="square">
+        {/* TODO */}    // -> delete
+        {this.props.value}  // -> add
+      </button>
+    );
+  }
+}
+
+class Board extends React.Component {
+  renderSquare(i) {
+    // return <Square />;    // -> delete
+    return <Square value={i} />;  // -> add
+  }
+```
+
+- 変更後の描画結果
+
+  <img width="140" alt="" src="https://user-images.githubusercontent.com/33124627/93834306-619abe00-fcb6-11ea-9db5-37a2d388b51d.png">
