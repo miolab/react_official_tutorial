@@ -144,6 +144,8 @@ v14.10.1
   - props
   - render
   - JSX
+  - state
+    - コンポーネントに「何か」を覚えさせるもの
 
 （TODO: あとで書く）
 
@@ -194,7 +196,7 @@ v14.10.1
 
 ### :book: [インタラクティブなコンポーネントを作る](https://ja.reactjs.org/tutorial/tutorial.html#making-an-interactive-component)
 
-- `index.js`
+- 実験実装（`index.js`）
 
   ```js
   class Square extends React.Component {
@@ -209,8 +211,40 @@ v14.10.1
   }
   ```
 
-- 変更後の描画結果
+  - 変更後の描画結果
 
-  マス目をクリックすると、アラートが出現されるよう変更しました
+    マス目をクリックすると、アラートが出現されるよう変更しました
 
-  <img width="600" alt="" src="https://user-images.githubusercontent.com/33124627/93840084-1b4f5a00-fcca-11ea-9a03-ebd3d02865ba.png">
+    <img width="600" alt="" src="https://user-images.githubusercontent.com/33124627/93840084-1b4f5a00-fcca-11ea-9a03-ebd3d02865ba.png">
+
+- マス目クリックで __X__ が表示されるよう、コンポーネント変更実装（`index.js` ）
+
+  ```js
+  class Square extends React.Component {
+    // ADD next block : constructor
+    constructor(props) {
+      super(props);
+      this.state = {
+        // state の初期化
+        value: null,
+      };
+    }
+
+    render() {
+      return (
+        // <button className="square" onClick={() => { alert('click'); }}>  -> delete
+          // {this.props.value}  -> delete
+        // ADD next blocks : <button ...> & { ... }
+        <button
+          className="square"
+          onClick={() => this.setState({ value: 'X' })}
+        >
+          {this.state.value}
+        </button>
+  ```
+
+  - 変更後の描画結果
+
+    マス目をクリックすると、状態が変わり「X」マーク（のみ）が表示できるようになりました
+
+    <img width="150" alt="" src="https://user-images.githubusercontent.com/33124627/93859146-3638c300-fcf8-11ea-919c-306cf16a06c6.png">
