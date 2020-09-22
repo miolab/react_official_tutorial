@@ -191,3 +191,26 @@ v14.10.1
 - 変更後の描画結果
 
   <img width="140" alt="" src="https://user-images.githubusercontent.com/33124627/93834306-619abe00-fcb6-11ea-9db5-37a2d388b51d.png">
+
+### :book: [インタラクティブなコンポーネントを作る](https://ja.reactjs.org/tutorial/tutorial.html#making-an-interactive-component)
+
+- `index.js`
+
+  ```js
+  class Square extends React.Component {
+    render() {
+      return (
+        // <button className="square">    -> delete
+        <button className="square" onClick={() => { alert('click'); }}>  // -> add
+          {this.props.value}
+        </button>
+      );
+    }
+  }
+  ```
+
+- 変更後の描画結果
+
+  マス目をクリックすると、アラートが出現されるよう変更しました
+
+  <img width="600" alt="" src="https://user-images.githubusercontent.com/33124627/93840084-1b4f5a00-fcca-11ea-9a03-ebd3d02865ba.png">
