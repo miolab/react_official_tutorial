@@ -135,19 +135,23 @@ v14.10.1
 
 ### :book: [React とは？](https://ja.reactjs.org/tutorial/tutorial.html#what-is-react)
 
-> React はユーザインターフェイスを構築するための、宣言型で効率的で柔軟な JavaScript ライブラリです。  
-> 複雑な UI を、「コンポーネント」と呼ばれる小さく独立した部品から組み立てることができます。
+> React は __ユーザインターフェイスを構築する__ ための、__宣言型__ で効率的で柔軟な JavaScript ライブラリです。  
+> __複雑な UI を、「コンポーネント」と呼ばれる小さく独立した部品から組み立てる__ ことができます。
 
 - キーワード
 
   - コンポーネント
+    - （上記前述）
   - props
+    - properties（パラメータ）の略
   - render
+    - 表示するビューの階層構造を返すメソッド
   - JSX
+    - React の構文
+      > JSX では JavaScript のすべての能力を使うことができます。  
+      > どのような JavaScript の式も JSX 内で中括弧に囲んで記入することができます。
   - state
     - コンポーネントに「何か」を覚えさせるもの
-
-（TODO: あとで書く）
 
 ### :book: [スターターコードの中身を確認する](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
 
