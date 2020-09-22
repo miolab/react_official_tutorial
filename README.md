@@ -135,17 +135,23 @@ v14.10.1
 
 ### :book: [React とは？](https://ja.reactjs.org/tutorial/tutorial.html#what-is-react)
 
-> React はユーザインターフェイスを構築するための、宣言型で効率的で柔軟な JavaScript ライブラリです。  
-> 複雑な UI を、「コンポーネント」と呼ばれる小さく独立した部品から組み立てることができます。
+> React は __ユーザインターフェイスを構築する__ ための、__宣言型__ で効率的で柔軟な JavaScript ライブラリです。  
+> __複雑な UI を、「コンポーネント」と呼ばれる小さく独立した部品から組み立てる__ ことができます。
 
 - キーワード
 
   - コンポーネント
+    - （上記前述）
   - props
+    - properties（パラメータ）の略
   - render
+    - 表示するビューの階層構造を返すメソッド
   - JSX
-
-（TODO: あとで書く）
+    - React の構文
+      > JSX では JavaScript のすべての能力を使うことができます。  
+      > どのような JavaScript の式も JSX 内で中括弧に囲んで記入することができます。
+  - state
+    - コンポーネントに「何か」を覚えさせるもの
 
 ### :book: [スターターコードの中身を確認する](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
 
@@ -167,25 +173,82 @@ v14.10.1
 
 親コンポーネント（Board）から、子コンポーネント（Square）へ props を渡して、アプリ内での情報を流していきます
 
-```js
-class Square extends React.Component {
-  render() {
-    return (
-      <button className="square">
-        {/* TODO */}    // -> delete
-        {this.props.value}  // -> add
-      </button>
-    );
-  }
-}
+- `index.js`
 
-class Board extends React.Component {
-  renderSquare(i) {
-    // return <Square />;    // -> delete
-    return <Square value={i} />;  // -> add
+  ```js
+  class Square extends React.Component {
+    render() {
+      return (
+        <button className="square">
+          {/* TODO */}    // -> delete
+          {this.props.value}  // -> add
+        </button>
+      );
+    }
   }
-```
+
+  class Board extends React.Component {
+    renderSquare(i) {
+      // return <Square />;    // -> delete
+      return <Square value={i} />;  // -> add
+    }
+  ```
 
 - 変更後の描画結果
 
   <img width="140" alt="" src="https://user-images.githubusercontent.com/33124627/93834306-619abe00-fcb6-11ea-9db5-37a2d388b51d.png">
+
+### :book: [インタラクティブなコンポーネントを作る](https://ja.reactjs.org/tutorial/tutorial.html#making-an-interactive-component)
+
+- 実験実装（`index.js`）
+
+  ```js
+  class Square extends React.Component {
+    render() {
+      return (
+        // <button className="square">    -> delete
+        <button className="square" onClick={() => { alert('click'); }}>  // -> add
+          {this.props.value}
+        </button>
+      );
+    }
+  }
+  ```
+
+  - 変更後の描画結果
+
+    マス目をクリックすると、アラートが出現されるよう変更しました
+
+    <img width="600" alt="" src="https://user-images.githubusercontent.com/33124627/93840084-1b4f5a00-fcca-11ea-9a03-ebd3d02865ba.png">
+
+- マス目クリックで __X__ が表示されるよう、コンポーネント変更実装（`index.js` ）
+
+  ```js
+  class Square extends React.Component {
+    // ADD next block : constructor
+    constructor(props) {
+      super(props);
+      this.state = {
+        // state の初期化
+        value: null,
+      };
+    }
+
+    render() {
+      return (
+        // <button className="square" onClick={() => { alert('click'); }}>  -> delete
+          // {this.props.value}  -> delete
+        // ADD next blocks : <button ...> & { ... }
+        <button
+          className="square"
+          onClick={() => this.setState({ value: 'X' })}
+        >
+          {this.state.value}
+        </button>
+  ```
+
+  - 変更後の描画結果
+
+    マス目をクリックすると、状態が変わり「X」マーク（のみ）が表示できるようになりました
+
+    <img width="150" alt="" src="https://user-images.githubusercontent.com/33124627/93859146-3638c300-fcf8-11ea-919c-306cf16a06c6.png">
