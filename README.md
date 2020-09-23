@@ -328,3 +328,14 @@ state 管理を、Square コンポーネントではなく Board コンポーネ
 > handleClick 内では、squares を直接変更する代わりに、.slice() を呼んで配列のコピーを作成していることに注意してください。
 
 ## :book: [イミュータビリティは何故重要なのか](https://ja.reactjs.org/tutorial/tutorial.html#why-immutability-is-important)
+
+- 複雑な機能が簡単に実装できる
+
+- 変更の検出
+
+- React の再レンダータイミングの決定
+
+  > イミュータビリティの主な利点は、React で pure component を構築しやすくなるということです。  
+  > イミュータブルなデータは変更があったかどうか簡単に分かるため、コンポーネントをいつ再レンダーすべきなのか決定しやすくなります。
+
+## :book: [関数コンポーネント](https://ja.reactjs.org/tutorial/tutorial.html#function-components)
