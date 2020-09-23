@@ -339,3 +339,80 @@ state 管理を、Square コンポーネントではなく Board コンポーネ
   > イミュータブルなデータは変更があったかどうか簡単に分かるため、コンポーネントをいつ再レンダーすべきなのか決定しやすくなります。
 
 ## :book: [関数コンポーネント](https://ja.reactjs.org/tutorial/tutorial.html#function-components)
+
+Square を、クラスから __関数コンポーネント__ に書き換えます
+
+> React における __関数コンポーネント__ とは、__render メソッドだけを有して自分の state を持たないコンポーネント__ を、よりシンプルに書くための方法です。
+
+- `index.js`
+
+  ```js
+  // class Square extends React.Component {    -> delete
+  function Square(props) {  // -> add
+    // render() {           -> delete
+      return (
+        <button
+          className="square"
+          // onClick={() => this.props.onClick()}  -> delete
+          onClick={props.onClick}  // -> add
+        >
+          {/* {this.props.value}  -> delete */}
+          {props.value}  // -> add
+        </button>
+      );
+    // }    -> delete
+  }
+  ```
+
+## :book: [手番の処理](https://ja.reactjs.org/tutorial/tutorial.html#taking-turns)
+
+- 盤面に __O__ も出せるよう、変更実装します（`index.js`）
+
+  ```js
+  class Board extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        squares: Array(9).fill(null),
+        xIsNext: true,    // -> add（初期値を'X'にセット）
+      };
+    }
+
+      .
+      .
+
+    handleClick(i) {
+      const squares = this.state.squares.slice();
+      // squares[i] = 'X';        -> delete
+      // this.setState({squares: squares});  -> delete
+      squares[i] = this.state.xIsNext ? 'X' : 'O';  // -> add
+      this.setState({           // -> add
+        squares: squares,       // -> add
+        xIsNext: !this.state.xIsNext,  // -> add
+      });
+    }
+  ```
+
+  `handleClick` の変更実装により、`xIsNext` の値を置き換えて反転させるようにしました
+
+  - 変更後の描画結果
+
+    マス目クリックで、「X」「O」マークが交互に表示できるようになりました
+
+    <img width="206" alt="" src="https://user-images.githubusercontent.com/33124627/94084930-b28aed80-fe41-11ea-80e3-faa1533ec22d.png">
+
+- どちらのプレーヤの手番なのかを表示するように、変更実装します（`index.js`）
+
+  ```js
+  class Board extends React.Component {
+      .
+      .
+
+  render() {
+    // const status = 'Next player: X';    -> delete
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');  // -> add
+  ```
+
+  - 変更後の描画結果
+
+    <img width="135" alt="" src="https://user-images.githubusercontent.com/33124627/94085498-45785780-fe43-11ea-930a-5a41370a31f0.png">
