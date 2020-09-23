@@ -133,7 +133,7 @@ v14.10.1
 
 # :rocket: [概要](https://ja.reactjs.org/tutorial/tutorial.html#overview)
 
-### :book: [React とは？](https://ja.reactjs.org/tutorial/tutorial.html#what-is-react)
+## :book: [React とは？](https://ja.reactjs.org/tutorial/tutorial.html#what-is-react)
 
 > React は __ユーザインターフェイスを構築する__ ための、__宣言型__ で効率的で柔軟な JavaScript ライブラリです。  
 > __複雑な UI を、「コンポーネント」と呼ばれる小さく独立した部品から組み立てる__ ことができます。
@@ -153,7 +153,7 @@ v14.10.1
   - state
     - コンポーネントに「何か」を覚えさせるもの
 
-### :book: [スターターコードの中身を確認する](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
+## :book: [スターターコードの中身を確認する](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
 
 `index.js` が持つ、3つの React コンポーネントをあらためて俯瞰してみます
 
@@ -169,7 +169,7 @@ v14.10.1
 
   盤面および、プレースホルダー（後ほど実装）を描画
 
-### :book: [データを Props 経由で渡す](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
+## :book: [データを Props 経由で渡す](https://ja.reactjs.org/tutorial/tutorial.html#passing-data-through-props)
 
 親コンポーネント（Board）から、子コンポーネント（Square）へ props を渡して、アプリ内での情報を流していきます
 
@@ -198,7 +198,7 @@ v14.10.1
 
   <img width="140" alt="" src="https://user-images.githubusercontent.com/33124627/93834306-619abe00-fcb6-11ea-9db5-37a2d388b51d.png">
 
-### :book: [インタラクティブなコンポーネントを作る](https://ja.reactjs.org/tutorial/tutorial.html#making-an-interactive-component)
+## :book: [インタラクティブなコンポーネントを作る](https://ja.reactjs.org/tutorial/tutorial.html#making-an-interactive-component)
 
 - 実験実装（`index.js`）
 
@@ -252,3 +252,90 @@ v14.10.1
     マス目をクリックすると、状態が変わり「X」マーク（のみ）が表示できるようになりました
 
     <img width="150" alt="" src="https://user-images.githubusercontent.com/33124627/93859146-3638c300-fcf8-11ea-919c-306cf16a06c6.png">
+
+## :book: [Developer Tools](https://ja.reactjs.org/tutorial/tutorial.html#developer-tools)
+
+- [React Developer Tools（FireFox 版）](https://addons.mozilla.org/ja/firefox/addon/react-devtools/)
+
+  React コンポーネントの props と state を確認するための、ブラウザ拡張機能
+
+# :rocket: [ゲームを完成させる](https://ja.reactjs.org/tutorial/tutorial.html#completing-the-game)
+
+## :book: [State のリフトアップ](https://ja.reactjs.org/tutorial/tutorial.html#lifting-state-up)
+
+state 管理を、Square コンポーネントではなく Board コンポーネントで行うように変更実装します
+
+> state を親コンポーネントにリフトアップ (lift up) することは React コンポーネントのリファクタリングでよくあることですので、この機会に挑戦してみましょう。
+
+- `index.js`
+
+  ```js
+  class Square extends React.Component {
+    // * DELETE next constructor block ->
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     value: null,
+    //   };
+    // }
+
+    render() {
+      return (
+        <button
+          className="square"
+          // onClick={() => this.setState({ value: 'X' })}  -> delete
+          onClick={() => this.props.onClick()}  // -> add
+        >
+          {/* {this.state.value}  -> delete */}
+          {this.props.value}
+        </button>
+      );
+    }
+  }
+
+  class Board extends React.Component {
+    // ADD next constructor block as this ->
+    constructor(props) {
+      super(props);
+      this.state = {
+        squares: Array(9).fill(null),
+      };
+    }
+
+    renderSquare(i) {
+      // return <Square value={i} />;  -> delete
+      // ADD next return block as this ->
+      return (
+        <Square
+          value={this.state.squares[i]}
+          onClick={() => this.handleClick(i)}
+        />
+      );
+    }
+
+    // ADD next handleClick block as this ->
+    handleClick(i) {
+      const squares = this.state.squares.slice();
+      squares[i] = 'X';
+      this.setState({squares: squares});
+    }
+
+  ```
+
+> Square コンポーネントは __制御されたコンポーネント (controlled component)__ になったということです。  
+> Board が Square コンポーネントを全面的に制御しています。
+
+> handleClick 内では、squares を直接変更する代わりに、.slice() を呼んで配列のコピーを作成していることに注意してください。
+
+## :book: [イミュータビリティは何故重要なのか](https://ja.reactjs.org/tutorial/tutorial.html#why-immutability-is-important)
+
+- 複雑な機能が簡単に実装できる
+
+- 変更の検出
+
+- React の再レンダータイミングの決定
+
+  > イミュータビリティの主な利点は、React で pure component を構築しやすくなるということです。  
+  > イミュータブルなデータは変更があったかどうか簡単に分かるため、コンポーネントをいつ再レンダーすべきなのか決定しやすくなります。
+
+## :book: [関数コンポーネント](https://ja.reactjs.org/tutorial/tutorial.html#function-components)
