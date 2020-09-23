@@ -366,9 +366,7 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
 ## :book: [手番の処理](https://ja.reactjs.org/tutorial/tutorial.html#taking-turns)
 
-盤面に __O__ も出せるよう、変更実装します
-
-- `index.js`
+- 盤面に __O__ も出せるよう、変更実装します（`index.js`）
 
   ```js
   class Board extends React.Component {
@@ -402,3 +400,19 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     マス目クリックで、「X」「O」マークが交互に表示できるようになりました
 
     <img width="206" alt="" src="https://user-images.githubusercontent.com/33124627/94084930-b28aed80-fe41-11ea-80e3-faa1533ec22d.png">
+
+- どちらのプレーヤの手番なのかを表示するように、変更実装します（`index.js`）
+
+  ```js
+  class Board extends React.Component {
+      .
+      .
+
+  render() {
+    // const status = 'Next player: X';    -> delete
+    const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');  // -> add
+  ```
+
+  - 変更後の描画結果
+
+    <img width="135" alt="" src="https://user-images.githubusercontent.com/33124627/94085498-45785780-fe43-11ea-930a-5a41370a31f0.png">
