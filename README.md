@@ -262,3 +262,69 @@ v14.10.1
 # :rocket: [ゲームを完成させる](https://ja.reactjs.org/tutorial/tutorial.html#completing-the-game)
 
 ## :book: [State のリフトアップ](https://ja.reactjs.org/tutorial/tutorial.html#lifting-state-up)
+
+state 管理を、Square コンポーネントではなく Board コンポーネントで行うように変更実装します
+
+> state を親コンポーネントにリフトアップ (lift up) することは React コンポーネントのリファクタリングでよくあることですので、この機会に挑戦してみましょう。
+
+- `index.js`
+
+  ```js
+  class Square extends React.Component {
+    // * DELETE next constructor block ->
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     value: null,
+    //   };
+    // }
+
+    render() {
+      return (
+        <button
+          className="square"
+          // onClick={() => this.setState({ value: 'X' })}  -> delete
+          onClick={() => this.props.onClick()}  // -> add
+        >
+          {/* {this.state.value}  -> delete */}
+          {this.props.value}
+        </button>
+      );
+    }
+  }
+
+  class Board extends React.Component {
+    // ADD next constructor block as this ->
+    constructor(props) {
+      super(props);
+      this.state = {
+        squares: Array(9).fill(null),
+      };
+    }
+
+    renderSquare(i) {
+      // return <Square value={i} />;  -> delete
+      // ADD next return block as this ->
+      return (
+        <Square
+          value={this.state.squares[i]}
+          onClick={() => this.handleClick(i)}
+        />
+      );
+    }
+
+    // ADD next handleClick block as this ->
+    handleClick(i) {
+      const squares = this.state.squares.slice();
+      squares[i] = 'X';
+      this.setState({squares: squares});
+    }
+
+  ```
+
+> Square コンポーネントは __制御されたコンポーネント (controlled component)__ になったということです。  
+> Board が Square コンポーネントを全面的に制御しています。
+
+> handleClick 内では、squares を直接変更する代わりに、.slice() を呼んで配列のコピーを作成していることに注意してください。
+
+## :book: [イミュータビリティは何故重要なのか](https://ja.reactjs.org/tutorial/tutorial.html#why-immutability-is-important)
