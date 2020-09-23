@@ -339,3 +339,24 @@ state 管理を、Square コンポーネントではなく Board コンポーネ
   > イミュータブルなデータは変更があったかどうか簡単に分かるため、コンポーネントをいつ再レンダーすべきなのか決定しやすくなります。
 
 ## :book: [関数コンポーネント](https://ja.reactjs.org/tutorial/tutorial.html#function-components)
+
+Square を、関数コンポーネントに書き換えます
+
+> React における関数コンポーネントとは、render メソッドだけを有して自分の state を持たないコンポーネントを、よりシンプルに書くための方法です。
+
+- `index.js`
+
+  ```js
+  class Square extends React.Component {
+    render() {
+      return (
+        <button
+          className="square"
+          // onClick={() => this.props.onClick()}  -> delete
+          onClick={props.onClick}  // -> add
+        >
+          {/* {this.props.value}  -> delete */}
+          {props.value}  // -> add
+  ```
+
+## :book: [手番の処理](https://ja.reactjs.org/tutorial/tutorial.html#taking-turns)
