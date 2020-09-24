@@ -493,3 +493,5 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     > おめでとうございます！ これで動作する三目並べゲームができました。そして React の基本についても学ぶことができました。__このゲームの真の勝者はあなた__ かもしれませんね。
 
     :zabuton: （絵文字がない）
+
+# :rocket: [タイムトラベル機能の追加](https://ja.reactjs.org/tutorial/tutorial.html#adding-time-travel)
