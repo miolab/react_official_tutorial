@@ -546,3 +546,24 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 - この `history` 配列の状態を、どのコンポーネントで保持するべきでしょうか？
 
 ## :book: [State のリフトアップ、再び](https://ja.reactjs.org/tutorial/tutorial.html#lifting-state-up-again)
+
+結論、トップレベルの Game コンポーネント内に、history の state を置くようにします
+
+- そうすることで、squares の state を、子コンポーネントである Board から取り除けるようにできるため
+
+- まず、Game コンポーネントの初期 state を、コンストラクタ内でセットします（`index.js`）
+
+  ```js
+  class Game extends React.Component {
+  // ADD next constructor block ->
+    constructor(props) {
+      super(props);
+      this.state = {
+        history: [{
+          squares: Array(9).fill(null),
+        }],
+        xIsNext: true,
+      };
+    }
+
+  ```
