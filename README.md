@@ -416,3 +416,5 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
   - 変更後の描画結果
 
     <img width="135" alt="" src="https://user-images.githubusercontent.com/33124627/94085498-45785780-fe43-11ea-930a-5a41370a31f0.png">
+
+## :book: [ゲーム勝者の判定](https://ja.reactjs.org/tutorial/tutorial.html#declaring-a-winner)
