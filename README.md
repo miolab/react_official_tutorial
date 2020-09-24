@@ -2,6 +2,12 @@
 
 - __React__ の [公式チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html) を、とおしで進めていきます
 
+  - お題は、React で「三目並べゲーム」をつくる
+
+  - 「ゲームか」と思った人へ対する、公式サイドからの物言い
+
+    > 自分はゲームを作りたいのではないから、と飛ばしたくなるかもしれませんが、是非目を通してみてください。このチュートリアルで学ぶ技法はどのような React のアプリにおいても基本的なものであり、マスターすることで React への深い理解が得られます。
+
 - __内容を一部アレンジ__ します
 
   - __開発環境は Docker__ とします（公式での環境設定は、ローカル直書き & Webエディタ）
@@ -416,3 +422,74 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
   - 変更後の描画結果
 
     <img width="135" alt="" src="https://user-images.githubusercontent.com/33124627/94085498-45785780-fe43-11ea-930a-5a41370a31f0.png">
+
+## :book: [ゲーム勝者の判定](https://ja.reactjs.org/tutorial/tutorial.html#declaring-a-winner)
+
+`index.js`
+
+- コード末尾に、以下追記
+
+  ```js
+
+  function calculateWinner(squares) {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a];
+      }
+    }
+    return null;
+  }
+  ```
+
+- 以下の通り修正実装し、プレイヤー勝利判定を行う
+
+  ```js
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+
+    // ADD next `if` block ->
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      squares: squares,
+      xIsNext: !this.state.xIsNext,
+    });
+  }
+
+  render() {
+    // const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');  -> delete
+
+    // ADD next `const ~ if else` block ->
+    const winner = calculateWinner(this.state.squares);
+    let status;
+    if (winner) {
+      status = "Winner: " + winner;
+    } else {
+      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+    }
+
+  ```
+
+  - 変更後の描画結果
+
+    <img width="171" alt="スクリーンショット 2020-09-24 19 15 53" src="https://user-images.githubusercontent.com/33124627/94132521-6324db80-fe9a-11ea-827f-de1567275cd3.png">
+
+  - by 公式 ↓↓↓
+
+    > おめでとうございます！ これで動作する三目並べゲームができました。そして React の基本についても学ぶことができました。__このゲームの真の勝者はあなた__ かもしれませんね。
+
+    :zabuton: （絵文字がない）
