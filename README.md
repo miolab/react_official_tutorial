@@ -495,3 +495,54 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     :zabuton: （絵文字がない）
 
 # :rocket: [タイムトラベル機能の追加](https://ja.reactjs.org/tutorial/tutorial.html#adding-time-travel)
+
+## :book: [着手の履歴の保存](https://ja.reactjs.org/tutorial/tutorial.html#storing-a-history-of-moves)
+
+過去の手番まで「時間を巻き戻せる」タイムトラベル機能を、最後に実装します
+
+#### 現在の状態
+
+- プレイヤーが手番を行うタイミングで `squares` 配列をコピーする機能は実装済み  
+  （配列をイミュータブルなものとして扱ってきた）
+
+- そのため、`squares` 配列の過`去バージョンは` べて保存されており、そちらを利用して履歴をさかのぼることはできる
+
+#### 方針
+
+- `squares` 配列を、`history` 配列に格納保存します
+
+  - 構造
+
+    ```js
+    history = [
+      // Before first move
+      {
+        squares: [
+          null, null, null,
+          null, null, null,
+          null, null, null,
+        ]
+      },
+      // After first move
+      {
+        squares: [
+          null, null, null,
+          null, 'X', null,
+          null, null, null,
+        ]
+      },
+      // After second move
+      {
+        squares: [
+          null, null, null,
+          null, 'X', null,
+          null, null, 'O',
+        ]
+      },
+      // ...
+    ]
+    ```
+
+- この `history` 配列の状態を、どのコンポーネントで保持するべきでしょうか？
+
+## :book: [State のリフトアップ、再び](https://ja.reactjs.org/tutorial/tutorial.html#lifting-state-up-again)
