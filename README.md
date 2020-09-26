@@ -551,11 +551,13 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
 - そうすることで、squares の state を、子コンポーネントである Board から取り除けるようにできるため
 
-- まず、Game コンポーネントの初期 state を、コンストラクタ内でセットします（`index.js`）
+### 実装（`index.js`）
+
+- まず、Game コンポーネントの初期 state を、コンストラクタ内でセットします
 
   ```js
   class Game extends React.Component {
-  // ADD next constructor block ->
+    // ADD next constructor block ->
     constructor(props) {
       super(props);
       this.state = {
@@ -567,3 +569,151 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     }
 
   ```
+
+- 続いて、`Board` コンポーネントが、Gameコンポーネントから
+
+  - square
+  - onClick
+
+  の両プロパティを受け取るよう変更
+
+  ```js
+  class Board extends React.Component {
+    // DELETE next constructor block ->
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     squares: Array(9).fill(null),
+    //     xIsNext: true,
+    //   };
+    // }
+
+    renderSquare(i) {
+      return (
+        <Square
+          // value={this.state.squares[i]}  -> delete
+          // onClick={() => this.handleClick(i)}  -> delete
+          value={this.props.squares[i]}  // -> add
+          onClick={() => this.props.onClick(i)}  // -> add
+        />
+      );
+    }
+  ```
+
+- さらに、`Game` コンポーネントの render 関数を更新して、ゲームのステータステキストの決定や表示の際に最新履歴が使われるよう変更します
+
+  - Game コンポーネントでがゲームのステータステキストを表示するようにしたので、対応するコードを Board コンポーネント内の render メソッドから削除します
+
+- あわせて、handleClick メソッドを Board コンポーネントから Game コンポーネントに移動します
+
+  - 中身をGameコンポーネント側にあわせて一部修正します
+
+  ```js
+  class Board extends React.Component {
+        .
+        .
+
+    // MOVE next method `handleClick` into Game component ->
+    // handleClick(i) {
+    //   const squares = this.state.squares.slice();
+
+    //   if (calculateWinner(squares) || squares[i]) {
+    //     return;
+    //   }
+
+    //   squares[i] = this.state.xIsNext ? 'X' : 'O';
+    //   this.setState({
+    //     squares: squares,
+    //     xIsNext: !this.state.xIsNext,
+    //   });
+    // }
+
+    render() {
+      // MOVE next block 'const ~ if else' into Game component ->
+      // const winner = calculateWinner(this.state.squares);
+      // let status;
+      // if (winner) {
+      //   status = "Winner: " + winner;
+      // } else {
+      //   status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      // }
+
+      return (
+        <div>
+          {/* <div className="status">{status}</div>   -> delete */}
+          <div className="board-row">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  class Game extends React.Component {
+    constructor(props) {
+        .
+        .
+
+    // PUT next method 'handleClick' and function `render` FROM Board component (and UPDATE) ->
+    handleClick(i) {
+      const history = this.state.history;
+      const current = history[history.length - 1];
+      const squares = current.squares.slice();
+
+      if (calculateWinner(squares) || squares[i]) {
+        return;
+      }
+
+      squares[i] = this.state.xIsNext ? 'X' : 'O';
+      this.setState({
+        history: history.concat([{
+          squares: squares,
+        }]),
+        xIsNext: !this.state.xIsNext,
+      });
+    }
+
+    render() {
+      const history = this.state.history;
+      const current = history[history.length - 1];
+      const winner = calculateWinner(current.squares);
+      let status;
+      if (winner) {
+        status = 'Winner: ' + winner;
+      } else {
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      }
+
+      return (
+        <div className="game">
+          <div className="game-board">
+            {/* <Board />   -> UPDATE this Board as below */}
+            <Board
+              squares={current.squares}
+              onClick={(i) => this.handleClick(i)}
+            />
+          </div>
+          <div className="game-info">
+            {/* <div>status</div>   -> UPDATE this div as below */}
+            <div>{status}</div>
+            <ol>{/* TODO */}</ol>
+          </div>
+        </div>
+      );
+    }
+  }
+  ```
+
+### []()
