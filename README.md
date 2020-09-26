@@ -155,7 +155,8 @@ v14.10.1
   - JSX
     - React の構文
       > JSX では JavaScript のすべての能力を使うことができます。  
-      > どのような JavaScript の式も JSX 内で中括弧に囲んで記入することができます。
+      > どのような JavaScript の式も JSX 内で中括弧に囲んで記入することができます。  
+      > 各 React 要素は、__変数に格納したりプログラム内で受け渡ししたりできる、JavaScript のオブジェクト__ です。
   - state
     - コンポーネントに「何か」を覚えさせるもの
 
@@ -716,4 +717,32 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
   }
   ```
 
-### []()
+## :book: [過去の着手の表示](https://ja.reactjs.org/tutorial/tutorial.html#showing-the-past-moves)
+
+- 配列の `map()` メソッドについて
+
+  - 参考ファイル : `note/map.js`
+
+    ```js
+    const numbers = [1, 2, 3];
+    const doubled = numbers.map(x => x * 2);
+
+    console.log("doubled :", doubled);
+    ```
+
+    ```bash
+    $ node note/map.js
+    doubled : [ 2, 4, 6 ]
+    ```
+
+- Game の render メソッド内で history に map を作用させて、`着手履歴の配列をマップして画面上のボタンを表現する` React 要素を作りだし、`過去の手番に「ジャンプ」するためのボタンの一覧を表示` できるよう実装していきます
+
+---
+
+# WIP ->
+
+## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
+
+## :book: [タイムトラベルの実装](https://ja.reactjs.org/tutorial/tutorial.html#implementing-time-travel)
+
+## :book: [まとめ](https://ja.reactjs.org/tutorial/tutorial.html#wrapping-up)
