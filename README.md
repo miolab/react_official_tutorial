@@ -2,7 +2,7 @@
 
 - __React__ の [公式チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html) を、とおしで進めていきます
 
-  - お題は、React で「三目並べゲーム」をつくる
+  - お題は、React で「三目並べゲーム」（Tic Tac Toe）をつくる
 
   - 「ゲームか」と思った人へ対する、公式サイドからの物言い
 
@@ -155,7 +155,8 @@ v14.10.1
   - JSX
     - React の構文
       > JSX では JavaScript のすべての能力を使うことができます。  
-      > どのような JavaScript の式も JSX 内で中括弧に囲んで記入することができます。
+      > どのような JavaScript の式も JSX 内で中括弧に囲んで記入することができます。  
+      > 各 React 要素は、__変数に格納したりプログラム内で受け渡ししたりできる、JavaScript のオブジェクト__ です。
   - state
     - コンポーネントに「何か」を覚えさせるもの
 
@@ -551,11 +552,13 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
 - そうすることで、squares の state を、子コンポーネントである Board から取り除けるようにできるため
 
-- まず、Game コンポーネントの初期 state を、コンストラクタ内でセットします（`index.js`）
+### 実装（`index.js`）
+
+- まず、Game コンポーネントの初期 state を、コンストラクタ内でセットします
 
   ```js
   class Game extends React.Component {
-  // ADD next constructor block ->
+    // ADD next constructor block ->
     constructor(props) {
       super(props);
       this.state = {
@@ -567,3 +570,221 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     }
 
   ```
+
+- 続いて、`Board` コンポーネントが、Gameコンポーネントから
+
+  - square
+  - onClick
+
+  の両プロパティを受け取るよう変更
+
+  ```js
+  class Board extends React.Component {
+    // DELETE next constructor block ->
+    // constructor(props) {
+    //   super(props);
+    //   this.state = {
+    //     squares: Array(9).fill(null),
+    //     xIsNext: true,
+    //   };
+    // }
+
+    renderSquare(i) {
+      return (
+        <Square
+          // value={this.state.squares[i]}  -> delete
+          // onClick={() => this.handleClick(i)}  -> delete
+          value={this.props.squares[i]}  // -> add
+          onClick={() => this.props.onClick(i)}  // -> add
+        />
+      );
+    }
+  ```
+
+- さらに、`Game` コンポーネントの render 関数を更新して、ゲームのステータステキストの決定や表示の際に最新履歴が使われるよう変更します
+
+  - Game コンポーネントでがゲームのステータステキストを表示するようにしたので、対応するコードを Board コンポーネント内の render メソッドから削除します
+
+- あわせて、handleClick メソッドを Board コンポーネントから Game コンポーネントに移動します
+
+  - 中身をGameコンポーネント側にあわせて一部修正します
+
+  ```js
+  class Board extends React.Component {
+        .
+        .
+
+    // MOVE next method `handleClick` into Game component ->
+    // handleClick(i) {
+    //   const squares = this.state.squares.slice();
+
+    //   if (calculateWinner(squares) || squares[i]) {
+    //     return;
+    //   }
+
+    //   squares[i] = this.state.xIsNext ? 'X' : 'O';
+    //   this.setState({
+    //     squares: squares,
+    //     xIsNext: !this.state.xIsNext,
+    //   });
+    // }
+
+    render() {
+      // MOVE next block 'const ~ if else' into Game component ->
+      // const winner = calculateWinner(this.state.squares);
+      // let status;
+      // if (winner) {
+      //   status = "Winner: " + winner;
+      // } else {
+      //   status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      // }
+
+      return (
+        <div>
+          {/* <div className="status">{status}</div>   -> delete */}
+          <div className="board-row">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  class Game extends React.Component {
+    constructor(props) {
+        .
+        .
+
+    // PUT next method 'handleClick' and function `render` FROM Board component (and UPDATE) ->
+    handleClick(i) {
+      const history = this.state.history;
+      const current = history[history.length - 1];
+      const squares = current.squares.slice();
+
+      if (calculateWinner(squares) || squares[i]) {
+        return;
+      }
+
+      squares[i] = this.state.xIsNext ? 'X' : 'O';
+      this.setState({
+        history: history.concat([{
+          squares: squares,
+        }]),
+        xIsNext: !this.state.xIsNext,
+      });
+    }
+
+    render() {
+      const history = this.state.history;
+      const current = history[history.length - 1];
+      const winner = calculateWinner(current.squares);
+      let status;
+      if (winner) {
+        status = 'Winner: ' + winner;
+      } else {
+        status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      }
+
+      return (
+        <div className="game">
+          <div className="game-board">
+            {/* <Board />   -> UPDATE this Board as below */}
+            <Board
+              squares={current.squares}
+              onClick={(i) => this.handleClick(i)}
+            />
+          </div>
+          <div className="game-info">
+            {/* <div>status</div>   -> UPDATE this div as below */}
+            <div>{status}</div>
+            <ol>{/* TODO */}</ol>
+          </div>
+        </div>
+      );
+    }
+  }
+  ```
+
+## :book: [過去の着手の表示](https://ja.reactjs.org/tutorial/tutorial.html#showing-the-past-moves)
+
+- 配列の `map()` メソッドについて
+
+  - 参考ファイル : `note/map.js`
+
+    ```js
+    const numbers = [1, 2, 3];
+    const doubled = numbers.map(x => x * 2);
+
+    console.log("doubled :", doubled);
+    ```
+
+    ```bash
+    $ node note/map.js
+    doubled : [ 2, 4, 6 ]
+    ```
+
+- Game の render メソッド内で history に map を作用させて、`着手履歴の配列をマップして画面上のボタンを表現する` React 要素を作りだし、`過去の手番に「ジャンプ」するためのボタンの一覧を表示` できるよう実装していきます
+
+  ```js
+  class Game extends React.Component {
+        .
+        .
+
+    render() {
+      const history = this.state.history;
+      const current = history[history.length - 1];
+      const winner = calculateWinner(current.squares);
+
+      // ADD next `const moves` block ->
+      const moves = history.map((step, move) => {
+        const desc = move ?
+          'Go to move #' + move :
+          'Go to game start';
+        return (
+          <li>
+            <button onClick={() =>
+              this.jumpTo(move)}>
+              {desc}
+            </button>
+          </li>
+        );
+      });
+
+        .
+        .
+
+      return (
+        .
+        .
+            <div>{status}</div>
+            {/* <ol>TODO</ol>   UPDATE as next ol -> */}
+            <ol>{moves}</ol>
+          </div>
+        </div>
+  ```
+
+  > ひとまずこのコードにより、ゲーム内で行われた着手のリストが表示されるようになりましたが、同時に開発者ツールのコンソール内に以下の警告も出力されているはずです（__下記、ブラウザ表示結果参照__）
+
+  <img width="587" alt="スクリーンショット 2020-09-27 16 44 42" src="https://user-images.githubusercontent.com/33124627/94359268-0f580380-00e1-11eb-844c-d663ce3fffd9.png">
+
+---
+
+# WIP ->
+
+## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
+
+## :book: [タイムトラベルの実装](https://ja.reactjs.org/tutorial/tutorial.html#implementing-time-travel)
+
+## :book: [まとめ](https://ja.reactjs.org/tutorial/tutorial.html#wrapping-up)
