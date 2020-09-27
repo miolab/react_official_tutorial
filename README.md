@@ -2,7 +2,7 @@
 
 - __React__ の [公式チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html) を、とおしで進めていきます
 
-  - お題は、React で「三目並べゲーム」をつくる
+  - お題は、React で「三目並べゲーム」（Tic Tac Toe）をつくる
 
   - 「ゲームか」と思った人へ対する、公式サイドからの物言い
 
@@ -736,6 +736,48 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     ```
 
 - Game の render メソッド内で history に map を作用させて、`着手履歴の配列をマップして画面上のボタンを表現する` React 要素を作りだし、`過去の手番に「ジャンプ」するためのボタンの一覧を表示` できるよう実装していきます
+
+  ```js
+  class Game extends React.Component {
+        .
+        .
+
+    render() {
+      const history = this.state.history;
+      const current = history[history.length - 1];
+      const winner = calculateWinner(current.squares);
+
+      // ADD next `const moves` block ->
+      const moves = history.map((step, move) => {
+        const desc = move ?
+          'Go to move #' + move :
+          'Go to game start';
+        return (
+          <li>
+            <button onClick={() =>
+              this.jumpTo(move)}>
+              {desc}
+            </button>
+          </li>
+        );
+      });
+
+        .
+        .
+
+      return (
+        .
+        .
+            <div>{status}</div>
+            {/* <ol>TODO</ol>   UPDATE as next ol -> */}
+            <ol>{moves}</ol>
+          </div>
+        </div>
+  ```
+
+  > ひとまずこのコードにより、ゲーム内で行われた着手のリストが表示されるようになりましたが、同時に開発者ツールのコンソール内に以下の警告も出力されているはずです（__下記、ブラウザ表示結果参照__）
+
+  <img width="587" alt="スクリーンショット 2020-09-27 16 44 42" src="https://user-images.githubusercontent.com/33124627/94359268-0f580380-00e1-11eb-844c-d663ce3fffd9.png">
 
 ---
 
