@@ -779,11 +779,11 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
   <img width="587" alt="スクリーンショット 2020-09-27 16 44 42" src="https://user-images.githubusercontent.com/33124627/94359268-0f580380-00e1-11eb-844c-d663ce3fffd9.png">
 
+## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
+
 ---
 
 # WIP ->
-
-## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
 
 ## :book: [タイムトラベルの実装](https://ja.reactjs.org/tutorial/tutorial.html#implementing-time-travel)
 
