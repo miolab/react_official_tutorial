@@ -2,11 +2,11 @@
 
 - __React__ の [公式チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html) を、とおしで進めていきます
 
-  - お題は、React で「三目並べゲーム」（Tic Tac Toe）をつくる
+  - お題は、`React で「三目並べゲーム」（Tic Tac Toe）をつくる` です
 
-  - 「ゲームか」と思った人へ対する、公式サイドからの物言い
+    - 「ゲームか」と思った人へ対する、公式サイドからの物言い
 
-    > 自分はゲームを作りたいのではないから、と飛ばしたくなるかもしれませんが、是非目を通してみてください。このチュートリアルで学ぶ技法はどのような React のアプリにおいても基本的なものであり、マスターすることで React への深い理解が得られます。
+      > 自分はゲームを作りたいのではないから、と飛ばしたくなるかもしれませんが、是非目を通してみてください。このチュートリアルで学ぶ技法はどのような React のアプリにおいても基本的なものであり、マスターすることで React への深い理解が得られます。
 
 - __内容を一部アレンジ__ します
 
@@ -41,7 +41,7 @@ v14.10.1
 
 ## :book: React 開発環境準備
 
-- ディレクトリ構成
+- 初期ディレクトリ構成
 
   ```bash
   $ tree .
@@ -51,9 +51,9 @@ v14.10.1
   └── docker-compose.yml
   ```
 
-  - [初期構成ブランチ](https://github.com/miolab/react_official_tutorial/tree/_FROZEN__init_react_with_docker)
+  - [初期構成ブランチ](https://github.com/miolab/react_official_tutorial/tree/_FROZEN__init_react_with_docker) から `git clone` で入手可です
 
-  - この状態から、ルート直下に、Reactプロジェクトディレクトリ `my_app` を生成します（後述）
+  - この状態から、ルート直下に、Reactプロジェクトディレクトリ `my_app` を次の手順で生成します
 
 - Docker image をビルド
 
@@ -106,7 +106,7 @@ v14.10.1
 
   <img width="708" alt="スクリーンショット 2020-09-17 20 37 10" src="https://user-images.githubusercontent.com/33124627/93542518-2df92480-f994-11ea-82a2-e5e2bb705813.png">
 
-  - ぶじ、Reactの最初の画面が確認できました
+  - ぶじ、Reactの最初の画面が確認できました！
 
 ---
 
