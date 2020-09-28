@@ -2,11 +2,11 @@
 
 - __React__ の [公式チュートリアル](https://ja.reactjs.org/tutorial/tutorial.html) を、とおしで進めていきます
 
-  - お題は、React で「三目並べゲーム」（Tic Tac Toe）をつくる
+  - お題は、`React で「三目並べゲーム」（Tic Tac Toe）をつくる` です
 
-  - 「ゲームか」と思った人へ対する、公式サイドからの物言い
+    - 「ゲームか」と思った人へ対する、公式サイドからの物言い
 
-    > 自分はゲームを作りたいのではないから、と飛ばしたくなるかもしれませんが、是非目を通してみてください。このチュートリアルで学ぶ技法はどのような React のアプリにおいても基本的なものであり、マスターすることで React への深い理解が得られます。
+      > 自分はゲームを作りたいのではないから、と飛ばしたくなるかもしれませんが、是非目を通してみてください。このチュートリアルで学ぶ技法はどのような React のアプリにおいても基本的なものであり、マスターすることで React への深い理解が得られます。
 
 - __内容を一部アレンジ__ します
 
@@ -41,7 +41,7 @@ v14.10.1
 
 ## :book: React 開発環境準備
 
-- ディレクトリ構成
+- 初期ディレクトリ構成
 
   ```bash
   $ tree .
@@ -51,9 +51,9 @@ v14.10.1
   └── docker-compose.yml
   ```
 
-  - [初期構成ブランチ](https://github.com/miolab/react_official_tutorial/tree/_FROZEN__init_react_with_docker)
+  - [初期構成ブランチ](https://github.com/miolab/react_official_tutorial/tree/_FROZEN__init_react_with_docker) から `git clone` で入手可です
 
-  - この状態から、ルート直下に、Reactプロジェクトディレクトリ `my_app` を生成します（後述）
+  - この状態から、ルート直下に、Reactプロジェクトディレクトリ `my_app` を次の手順で生成します
 
 - Docker image をビルド
 
@@ -106,7 +106,7 @@ v14.10.1
 
   <img width="708" alt="スクリーンショット 2020-09-17 20 37 10" src="https://user-images.githubusercontent.com/33124627/93542518-2df92480-f994-11ea-82a2-e5e2bb705813.png">
 
-  - ぶじ、Reactの最初の画面が確認できました
+  - ぶじ、Reactの最初の画面が確認できました！
 
 ---
 
@@ -779,12 +779,102 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
   <img width="587" alt="スクリーンショット 2020-09-27 16 44 42" src="https://user-images.githubusercontent.com/33124627/94359268-0f580380-00e1-11eb-844c-d663ce3fffd9.png">
 
----
-
-# WIP ->
-
 ## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
+
+キーワード
+- `key`
+  - 特別なプロパティであり、Reactの予約語（`ref`）
 
 ## :book: [タイムトラベルの実装](https://ja.reactjs.org/tutorial/tutorial.html#implementing-time-travel)
 
+- Game コンポーネントの render メソッド内で、key を設定します
+
+  ```js
+    const moves = history.map((step, move) => {
+        .
+        .
+      return (
+        // UPDATE <li> tag
+        // <li>
+        <li key={move}>
+          <button onClick={() =>
+            this.jumpTo(move)}>
+            {desc}
+          </button>
+        </li>
+  ```
+
+- Game の constructor 内で、state の初期値として `stepNumber: 0` を加えます
+- あわせて、jumpTo メソッドを定義して、stepNumber が更新されるようにします。また、更新しようとしている stepNumber の値が偶数だった場合は xIsNext を true に設定します
+
+  ```js
+  class Game extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        history: [{
+          squares: Array(9).fill(null),
+        }],
+        stepNumber: 0,  // -> add
+        xIsNext: true,
+      };
+    }
+
+    handleClick(i) {
+        .
+        .
+    }
+
+    // ADD jumpTo method ->
+    jumpTo(step) {
+      this.setState({
+        stepNumber: step,
+        xIsNext: (step % 2) === 0,
+      });
+    }
+  ```
+
+- handleClick メソッドの変更実装
+
+  ```js
+
+  handleClick(i) {
+    // const history = this.state.history;    -> delete
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);    // -> add
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
+
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      history: history.concat([{
+        squares: squares,
+      }]),
+      stepNumber: history.length,    // -> add
+      xIsNext: !this.state.xIsNext,
+    });
+  }
+
+        .
+        .
+
+  render() {
+    const history = this.state.history;
+    // const current = history[history.length - 1];    -> delete
+    const current = history[this.state.stepNumber];    // -> add
+    const winner = calculateWinner(current.squares);
+
+  ```
+
+  - 上記実装により、ゲーム履歴内のどの手番をクリックした場合でも、三目並べの盤面は、該当の着手が発生した直後の状態を表示するように更新されるようになりました！
+
+    <img width="294" alt="" src="https://user-images.githubusercontent.com/33124627/94430131-5ff95a80-01ce-11eb-9e79-828baf4e2eef.png">
+
+    <img width="296" alt="" src="https://user-images.githubusercontent.com/33124627/94430138-638ce180-01ce-11eb-8045-bc832d2060db.png">
+
 ## :book: [まとめ](https://ja.reactjs.org/tutorial/tutorial.html#wrapping-up)
+
+WIP
