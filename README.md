@@ -781,10 +781,6 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
 ## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
 
-- ※ WIP
-  - docs のみ
-  - index.js 実装なし
-
 キーワード
 - `key`
   - 特別なプロパティであり、Reactの予約語（`ref`）
@@ -838,10 +834,47 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
     }
   ```
 
+- handleClick メソッドの変更実装
 
+  ```js
 
----
+  handleClick(i) {
+    // const history = this.state.history;    -> delete
+    const history = this.state.history.slice(0, this.state.stepNumber + 1);    // -> add
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
 
-# WIP ->
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+
+    squares[i] = this.state.xIsNext ? 'X' : 'O';
+    this.setState({
+      history: history.concat([{
+        squares: squares,
+      }]),
+      stepNumber: history.length,    // -> add
+      xIsNext: !this.state.xIsNext,
+    });
+  }
+
+        .
+        .
+
+  render() {
+    const history = this.state.history;
+    // const current = history[history.length - 1];    -> delete
+    const current = history[this.state.stepNumber];    // -> add
+    const winner = calculateWinner(current.squares);
+
+  ```
+
+  - 上記実装により、ゲーム履歴内のどの手番をクリックした場合でも、三目並べの盤面は、該当の着手が発生した直後の状態を表示するように更新されるようになりました！
+
+    <img width="294" alt="" src="https://user-images.githubusercontent.com/33124627/94430131-5ff95a80-01ce-11eb-9e79-828baf4e2eef.png">
+
+    <img width="296" alt="" src="https://user-images.githubusercontent.com/33124627/94430138-638ce180-01ce-11eb-8045-bc832d2060db.png">
 
 ## :book: [まとめ](https://ja.reactjs.org/tutorial/tutorial.html#wrapping-up)
+
+WIP
