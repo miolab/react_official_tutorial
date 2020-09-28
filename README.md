@@ -781,10 +781,67 @@ Square を、クラスから __関数コンポーネント__ に書き換えま�
 
 ## :book: [key を選ぶ](https://ja.reactjs.org/tutorial/tutorial.html#picking-a-key)
 
+- ※ WIP
+  - docs のみ
+  - index.js 実装なし
+
+キーワード
+- `key`
+  - 特別なプロパティであり、Reactの予約語（`ref`）
+
+## :book: [タイムトラベルの実装](https://ja.reactjs.org/tutorial/tutorial.html#implementing-time-travel)
+
+- Game コンポーネントの render メソッド内で、key を設定します
+
+  ```js
+    const moves = history.map((step, move) => {
+        .
+        .
+      return (
+        // UPDATE <li> tag
+        // <li>
+        <li key={move}>
+          <button onClick={() =>
+            this.jumpTo(move)}>
+            {desc}
+          </button>
+        </li>
+  ```
+
+- Game の constructor 内で、state の初期値として `stepNumber: 0` を加えます
+- あわせて、jumpTo メソッドを定義して、stepNumber が更新されるようにします。また、更新しようとしている stepNumber の値が偶数だった場合は xIsNext を true に設定します
+
+  ```js
+  class Game extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = {
+        history: [{
+          squares: Array(9).fill(null),
+        }],
+        stepNumber: 0,  // -> add
+        xIsNext: true,
+      };
+    }
+
+    handleClick(i) {
+        .
+        .
+    }
+
+    // ADD jumpTo method ->
+    jumpTo(step) {
+      this.setState({
+        stepNumber: step,
+        xIsNext: (step % 2) === 0,
+      });
+    }
+  ```
+
+
+
 ---
 
 # WIP ->
-
-## :book: [タイムトラベルの実装](https://ja.reactjs.org/tutorial/tutorial.html#implementing-time-travel)
 
 ## :book: [まとめ](https://ja.reactjs.org/tutorial/tutorial.html#wrapping-up)
